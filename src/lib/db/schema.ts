@@ -19,6 +19,7 @@ export const memories = sqliteTable('memories', {
 export const sessions = sqliteTable('sessions', {
   id: text('id').primaryKey(), // UUID
   ipAddress: text('ip_address').notNull(),
+  location: text('location'),
   userAgent: text('user_agent'),
   startedAt: text('started_at').notNull().$defaultFn(() => new Date().toISOString()),
   lastActiveAt: text('last_active_at'),

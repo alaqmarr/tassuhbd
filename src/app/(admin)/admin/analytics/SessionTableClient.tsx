@@ -13,6 +13,7 @@ interface PageView {
 interface SessionData {
   id: string;
   ipAddress: string;
+  location: string | null;
   userAgent: string | null;
   startedAt: string;
   pageViews: PageView[];
@@ -111,7 +112,7 @@ export default function SessionTableClient({ initialSessions }: SessionTableClie
                 />
               </th>
               <th className="p-4 font-semibold text-gray-700">Started (IST)</th>
-              <th className="p-4 font-semibold text-gray-700">IP</th>
+              <th className="p-4 font-semibold text-gray-700">IP & Location</th>
               <th className="p-4 font-semibold text-gray-700">User Agent</th>
               <th className="p-4 font-semibold text-gray-700">Pages Visited</th>
               <th className="p-4 font-semibold text-gray-700">Total Time</th>
@@ -133,8 +134,13 @@ export default function SessionTableClient({ initialSessions }: SessionTableClie
                         onChange={() => toggleSelect(s.id)}
                       />
                     </td>
-                    <td className="p-4 font-mono text-xs">{formatIST(s.startedAt)}</td>
-                    <td className="p-4 font-mono text-xs">{s.ipAddress}</td>
+                    <td className="p-4 font-mono text-xs whitespace-nowrap">{formatIST(s.startedAt)}</td>
+                    <td className="p-4">
+                      <div className="font-mono text-xs font-bold text-gray-700">{s.ipAddress}</div>
+                      {s.location && s.location !== 'Unknown Location' && (
+                        <div className="text-xs text-rose-gold mt-1">{s.location}</div>
+                      )}
+                    </td>
                     <td className="p-4 text-xs truncate max-w-[200px]" title={s.userAgent || ''}>{s.userAgent}</td>
                     <td className="p-4 font-bold">{views.length}</td>
                     <td className="p-4 font-bold">{Math.round(totalTimeMs / 1000)}s</td>

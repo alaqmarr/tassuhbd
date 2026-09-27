@@ -15,9 +15,25 @@ export async function POST(req: Request) {
     const now = new Date();
     const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
 
+    let location = 'Unknown Location';
+    
+    // Try to get location if we have a real IP
+    if (ip !== 'unknown' && ip !== '127.0.0.1' && ip !== '::1') {
+      try {
+        const geoRes = await fetch(`http://ip-api.com/json/${ip.split(',')[0].trim()}`);
+        const geo = await geoRes.json();
+        if (geo.status === 'success') {
+          location = `${geo.city}, ${geo.regionName}, ${geo.country}`;
+        }
+      } catch (e) {
+        console.error('Geo IP error:', e);
+      }
+    }
+
     await db.insert(sessions).values({
       id: sessionId,
       ipAddress: ip,
+      location: location,
       userAgent: userAgent,
       startedAt: istTime.toISOString(),
       lastActiveAt: istTime.toISOString(),
