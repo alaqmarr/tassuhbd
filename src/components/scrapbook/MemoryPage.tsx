@@ -65,7 +65,12 @@ export const MemoryPage = ({ memory, pageNumber }: MemoryPageProps) => {
         </h2>
 
         {/* Scrollable Content Area */}
-        <div className="flex-grow overflow-y-auto custom-scrollbar pr-4 pb-8 flex flex-col items-center">
+        <div 
+          className="flex-grow overflow-y-auto custom-scrollbar pr-4 pb-8 flex flex-col items-center"
+          onPointerDown={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
           {/* Photo (if any) */}
           {photo ? (
             <div className={`relative mx-auto mb-8 rotate-1 hover:rotate-0 transition-all duration-500 bg-[#fbfbf9] p-3 pb-12 shadow-[0_10px_30px_rgba(0,0,0,0.15)] group w-4/5 md:w-3/4 max-w-sm shrink-0`}>

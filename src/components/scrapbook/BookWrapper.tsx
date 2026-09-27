@@ -126,6 +126,8 @@ export function BookWrapper({ memories }: BookWrapperProps) {
         className="scrapbook shadow-2xl mx-auto"
         style={{ margin: '0 auto' }}
         useMouseEvents={true}
+        disableFlipByClick={true}
+        clickEventForward={true}
       >
         {pages}
       </HTMLFlipBook>
